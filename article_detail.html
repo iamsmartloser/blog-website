@@ -52,23 +52,23 @@
                     <div class="panel-body">
                         <h2 class="c_titile" id="article_title"></h2>
                         <p class="box_c">
-							<span class="d_time" id="article_publish_time">发布时间：2017-02-05</span>
+							<span class="d_time" id="article_publish_time"></span>
 							<span>编辑：<a
                                 href=""  id="article_publisher"></a></span>
 						</p>
                         <div class="infos" id="article_markdown">
-                            内容
+
                         </div>
 
-                        <div class="keybq">
-                            <p><span>关键字</span>：<a class="label label-default">个人博客</a><a class="label label-default">阿里云</a><a
-                                    class="label label-default">空间</a></p>
-                        </div>
+                        <!--<div class="keybq">-->
+                            <!--<p><span>关键字</span>：<a class="label label-default">个人博客</a><a class="label label-default">阿里云</a><a-->
+                                    <!--class="label label-default">空间</a></p>-->
+                        <!--</div>-->
 
 
                         <div class="nextinfo">
-                            <p class="last">上一篇：<a href="#">免费收录网站搜索引擎登录口大全</a></p>
-                            <p class="next">下一篇：<a href="#">javascript显示年月日时间代码</a></p>
+                            <p class="last">上一篇：<a id="article_pre"></a></p>
+                            <p class="next">下一篇：<a id="article_next"></a></p>
                         </div>
 
                     </div>
@@ -139,13 +139,33 @@
         contentType: 'application/json;charset=utf-8',
         success: function (res) {
             if (res.code === 200&&res.result.markdown) {
-				$('#article_title').html(res.result.title);
-				$('#article_publisher').html(res.result.user.name);
-            	$('#article_markdown').html(marked(res.result.markdown));
+                if(res.result.title){
+                    $('#article_title').text(res.result.title);
+                }
+				if(res.result.user&&res.result.user.name){
+                    $('#article_publisher').text(res.result.user.name);
+                }
+                if(res.result.publishAt){
+                    $('#article_publish_time').text(res.result.publishAt);
+                }
+				if(res.result.markdown){
+                    $('#article_markdown').html(marked(res.result.markdown));
+                }
+                if(res.result.pre){
+                    $('#article_pre').text(res.result.pre.title)
+                        .attr("href",`article_detail.html?id=${res.result.pre.id}`)
+                }else {
+                    $('#article_pre').text('没有上一篇了')
+                }
+                if(res.result.next){
+                    $('#article_next').text(res.result.next.title)
+                        .attr("href",`article_detail.html?id=${res.result.next.id}`)
+                }else {
+                    $('#article_next').text('没有下一篇了')
+                }
             }
         }
     });
-
 
 </script>
 </body>
