@@ -49,7 +49,7 @@ a,a:hover{
 }
 .w_search .w_searchbox{
 	margin-top: 15px;
-	
+
 }
 .w_search .w_searchbox>input{
 	border: none;
@@ -222,8 +222,8 @@ a,a:hover{
 	color: #5f5f5f;
 }
 .contentleft{
-	width:75%;
-	float: left;
+	width:100%;
+	/*float: left;*/
 }
 .contentList .contentImage{
 	float: right;
@@ -323,7 +323,7 @@ a,a:hover{
 .w_navbar_tip{
 	float: right;
 	color: #999;
-	font-size: 12px; font-weight: normal; 
+	font-size: 12px; font-weight: normal;
 	line-height: 40px; height: 40px;
 }
 
