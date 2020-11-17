@@ -11,16 +11,18 @@
 <link href="logo.ico" rel="shortcut icon"/>
 <script src="plugin/jquery.min.js"></script>
 <script src="plugin/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="plugin/jquery.page.css">
+<script type="text/javascript" src="plugin/jquery.page.js"></script>
 <script src="js/config.js"></script>
 <body>
 <header>
     <div class="w_header">
         <div class="container">
             <div class="w_header_top">
-                <a href="#" class="w_logo"></a>
+                <span href="#" class="w_logo">Xian</span>
                 <span class="w_header_nav">
 					<ul>
-						<li><a href="" class="active">首页</a></li>
+						<li><a href="index.html" class="active">首页</a></li>
 						<li><a href="article.html">文章</a></li>
 						<li><a href="about.html">关于</a></li>
 						<li><a href="comment.html">留言</a></li>
@@ -41,7 +43,7 @@
         <div class="row w_main_row">
             <div class="col-lg-9 col-md-9 w_main_left">
                 <!--banner-->
-                <div class="panel panel-default">
+                <div class="panel panel-default banner">
 
                     <div id="w_carousel" class="carousel slide w_carousel" data-ride="carousel">
                         <!-- Indicators -->
@@ -98,7 +100,7 @@
                             您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。</p>
                     </a>
                 </div>
-                <div class="panel panel-default">
+                <div class="panel panel-default latest_publish_simple">
                     <div class="panel-heading">
                         <h3 class="panel-title">最新发布</h3>
                     </div>
@@ -112,13 +114,9 @@
         <div class="row w_main_row">
             <div class="col-lg-9 col-md-9 w_main_left">
                 <!--置顶-->
-                <div class="panel panel-default contenttop">
-                    <a href="article_detail.html">
-                        <strong>小可爱的置顶</strong>
-                        <h3 class="title">嫁人就嫁程序员</h3>
-                        <p class="overView">
-                            个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中。。。</p>
-                    </a>
+
+                <div class="panel panel-default contenttop" id="article_top">
+
                 </div>
 
                 <div class="panel panel-default">
@@ -127,42 +125,15 @@
                     </div>
 
                     <div class="panel-body">
-
                         <!--文章列表开始-->
-                        <div class="contentList">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="contentleft">
-                                        <h4><a class="title" href="article_detail.html">使用 Nginx 实现 tomcat、glassfish 等
-                                            web 服务器负载均衡</a></h4>
-                                        <p>
-                                            <a class="label label-default">Nginx</a>
-                                            <a class="label label-default">tomcat负载均衡</a>
-                                        </p>
-                                        <p class="overView">
-                                            1.web服务器负载均衡简介web服务器负载均衡是指将多台可用单节点服务器组合成web服务器集群，然后通过负载均衡器将客户端请求均匀的转发到不同的单节点web服务器上，从而增加整个web服务器集群的吞吐量。</p>
-                                        <p><span class="count"><i class="glyphicon glyphicon-user"></i><a
-                                                href="#">admin</a></span> <span class="count"><i
-                                                class="glyphicon glyphicon-eye-open"></i>阅读:1003</span><span
-                                                class="count"><i
-                                                class="glyphicon glyphicon-comment"></i>评论:2</span><span
-                                                class="count"><i class="glyphicon glyphicon-time"></i>2017-01-16</span>
-                                        </p>
-                                    </div>
-                                    <!--                                    <div class="contentImage">-->
-                                    <!--                                        <div class="row">-->
-                                    <!--                                            <a href="#" class="thumbnail w_thumbnail">-->
-                                    <!--                                                <img src="img/slider/Aj6bieY.jpg" alt="...">-->
-                                    <!--                                            </a>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
-                                </div>
-                            </div>
-
+                        <div class="contentList" id="article_content_List">
                         </div>
                         <!--文章列表结束-->
+                        <div id="page">
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -175,20 +146,101 @@
     </div>
 </footer>
 </body>
+<!--文章列表分页设置-->
 <script type="text/javascript">
-    var pageSize = 10;// 每页数量
-    var limit = 5;// 分页的数字按钮数(建议取奇数)
-    $(function () {
+    function setPage({total, size}) {
         $("#page").Page({
-            totalPages: pageSize,
-            liNums: limit,
+            totalPages: Math.ceil(total / size),
+            liNums: 5,
             activeClass: 'activP', //active 类样式定义
-            callBack: function (page) {
-                console.log(page)
+            callBack: function (current) {
+                console.log(current);
+                getLatestListByPage({current, size})
             }
         });
-    })
+        hasSetPage = true;
+    }
+
 </script>
+<!--获取文章列表-->
+<script type="text/javascript">
+    var hasSetPage = false;
+
+    function getLatestListByPage(page) {
+        $.ajax({
+            url: latest_articles_simple_url,
+            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, page}),//已发布状态
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function (res) {
+                if (res.code === 200) {
+                    //初始化渲染分页器
+                    if (!hasSetPage) {
+                        setPage(res.page)
+                    }
+                    //循环渲染文章列表
+                    $.each(res.result, function (index, item) {
+                        const name = item.title;
+                        $("#article_content_List").append(
+                            `
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="contentleft">
+                                        <h4><a class="title" href="article_detail.html?id=${item.id}">${item.title}</a></h4>
+                                        <p>
+                                            <a class="label label-default">label1</a>
+                                            <a class="label label-default">label2</a>
+                                        </p>
+                                        <p class="overView">${item.abstract}</p>
+                                        <p>
+<!--                                            <span class="count"><i class="glyphicon glyphicon-user"></i>-->
+<!--                                                <a href="#">admin</a>-->
+<!--                                            </span>-->
+                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.comment||0}</span>
+                                            <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        );
+                    });
+
+                }
+            }
+        });
+    }
+    getLatestListByPage({current: 1, size: 15})
+</script>
+<!--获取置顶文章-->
+<script>
+    $.ajax({
+        url: latest_articles_simple_url,
+        data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId,Q_gt_top:0}),//已发布状态
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (res) {
+            if (res.code === 200) {
+                $.each(res.result, function (index, item) {
+                    const name = item.title;
+                    $("#article_top").append(
+                        `
+                    <a href="article_detail.html?id=${item.id}">
+                        <strong>小可爱的置顶</strong>
+                        <h3 class="title">${item.title}</h3>
+                        <p class="overView">${item.abstract}</p>
+                    </a>
+
+                        `
+                    );
+                });
+            }
+        }
+    });
+</script>
+<!--获取左侧栏最新文章标题列表-->
 <script>
     $.ajax({
         url: latest_articles_simple_url,

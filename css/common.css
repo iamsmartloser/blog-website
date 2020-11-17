@@ -15,32 +15,22 @@ a,a:hover{
 .w_header{
 	height: 55px;
 	margin-bottom: -55px;
-	/*position:relative;*/
 	position: fixed;
 	z-index:999;
 	width: 100%;
 	background: #222;
-	box-shadow:1px 3px 5px #39F;
 	opacity:.90;
 }
 .w_header_top{
 	height: 55px;
 }
 .w_logo{
-	width: 220px;
-	height: 55px;
-	background-image: url(../img/logoo.png);
-	background-repeat: no-repeat;
-	background-position: center;
+	font-size: 28px;
+	font-weight: bold;
+	margin-top: 6px;
+	color: white;
 	float: left;
 }
-/*.w_slogan{
-	display: inline-block;
-	font-size: 30px;
-	font-weight: 800;
-	margin-top: 30px;
-	margin-left: 20px;
-}*/
 .w_search{
 	float: right;
 	padding-right: 10px;
@@ -76,10 +66,7 @@ a,a:hover{
 }
 
 .w_header_nav{
-	/*display: inline-block;*/
-	/*font-weight: 800;*/
 	margin-top: 20px;
-	/*margin-left: 20px;*/
 }
 .w_header_nav>ul{
 	padding: 0px;
@@ -129,9 +116,11 @@ a,a:hover{
 }
 .w_main_right{
 	margin: 20px 0px;
-	/*padding: 0px 0px 0px 10px;*/
-
+	position: fixed;
+	top:100px;
+	right: 4%;
 }
+
 /*.w_carousel{
 	margin-bottom: 20px;
 }*/
@@ -141,6 +130,7 @@ a,a:hover{
 }
 /*博主置顶*/
 .contenttop:hover{
+	padding: 8px;
 	border: 1px #FF5E52 solid;
 }
 .contenttop>a{
@@ -327,14 +317,18 @@ a,a:hover{
 	line-height: 40px; height: 40px;
 }
 
-@media only screen and (min-width:100px) and (max-width:768px){
+@media only screen and (min-width:100px) and (max-width:992px){
 	.w_carousel .carousel-inner img{
 		width: 100%;
 		height: 200px;
 	}
-	.w_logo{
-	    background: url(../img/logo0.png) no-repeat center;
-        width: 55px;
-	}
 	.w_header_nav>ul>li>a{width: 50px;}
+
+	.w_main_right{
+		margin: 20px 0px;
+		position: static;
+	}
+	.banner,.latest_publish_simple{
+		display: none;
+	}
 }
