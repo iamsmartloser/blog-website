@@ -136,7 +136,7 @@
     const id = getParam('id');
     $.ajax({
         url: article_detail_url,
-        data: JSON.stringify({Q_eq_id:id}),
+        data: JSON.stringify({Q_eq_id:id, Q_eq_userId: _userId}),
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json;charset=utf-8',
