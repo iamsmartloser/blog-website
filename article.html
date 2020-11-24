@@ -14,21 +14,7 @@
 <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="plugin/jquery.page.js"></script>
 <script src="js/common.js"></script>
-<!--<script src="js/snowy.js"></script>-->
-<script type="text/javascript">
-    var pageSize = 10;// 每页数量
-    var limit = 5;// 分页的数字按钮数(建议取奇数)
-    $(function () {
-        $("#page").Page({
-            totalPages: pageSize,
-            liNums: limit,
-            activeClass: 'activP', //active 类样式定义
-            callBack: function (page) {
-                console.log(page)
-            }
-        });
-    })
-</script>
+<script src="js/config.js"></script>
 
 <body>
 <div class="w_header">
@@ -59,42 +45,17 @@
             <ol class="breadcrumb w_breadcrumb">
                 <li><a href="#">首页</a></li>
                 <li class="active">文章</li>
+                <li class="active">全部</li>
                 <span class="w_navbar_tip">我们长路漫漫，只因学无止境。</span>
             </ol>
 
             <div class="col-lg-9 col-md-9 w_main_left">
                 <div class="panel panel-default">
-                    <div class="panel-body contentList">
-                        <div class="panel panel-default w_article_item">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-6 col-md-3">
-                                        <a href="#" class="thumbnail w_thumbnail">
-                                            <img src="img/slider/Aj6bieY.jpg" alt="...">
-                                        </a>
-                                    </div>
-                                    <h4 class="media-heading">
-                                        <a class="title" href="article_detail.html">使用 Nginx 实现 tomcat、glassfish 等 web
-                                            服务器负载均衡</a>
-                                    </h4>
-                                    <p><a class="label label-default">Nginx</a><a
-                                            class="label label-default">tomcat负载均衡</a></p>
-                                    <p class="w_list_overview overView">
-                                        web服务器负载均衡简介web服务器负载均衡是指将多台可用单节点服务器组合成web服务器集群，然后通过负载均衡器将客户端请求均匀的转发到不同的单节点web服务器上，从而增加整个web服务器集群的吞吐量</p>
-                                    <p class="count_r"><span class="count"><i class="glyphicon glyphicon-user"></i><a
-                                            href="#">admin</a></span> <span class="count"><i
-                                            class="glyphicon glyphicon-eye-open"></i>阅读:1003</span><span
-                                            class="count"><i class="glyphicon glyphicon-comment"></i>评论:2</span><span
-                                            class="count"><i class="glyphicon glyphicon-time"></i>2017-01-16</span></p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="panel-body contentList" id="article_content_List">
 
-                        <div id="page">
-
-                        </div>
-
-
+                    </div>
+                    <!--文章列表结束-->
+                    <div id="page">
                     </div>
                 </div>
 
@@ -103,21 +64,10 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">最新发布</h3>
+                        <h3 class="panel-title">文章分类</h3>
                     </div>
                     <div class="panel-body">
-                        <ul class="list-unstyled sidebar">
-                            <li><a href="/post/04928311">排序算法之冒泡排序 － java实现</a></li>
-                            <li><a href="/post/32097759">快速搭建基于二进制日志文件的 mysql 复制</a></li>
-                            <li><a href="/post/09196557">web 服务器负载均衡教程，快速搭建高可用服务器集群</a></li>
-                            <li><a href="/post/20654391">使用 redis 和 spring-session 实现 tomcat、glassfish 等 web 服务器集群
-                                session 共享</a></li>
-                            <li><a href="/post/41501569">使用 Nginx 实现 tomcat、glassfish 等 web 服务器负载均衡</a></li>
-                            <li><a href="/post/89658700">mysql 复制（replication）基础概念和应用场景简介</a></li>
-                            <li><a href="/post/03088922">redis 单节点在 Linux 生产环境的安装和简单配置</a></li>
-                            <li><a href="/post/05203355">使用 jQuery 的 val() 方法来获取以及设置表单元素值</a></li>
-                            <li><a href="/post/03120718">使用 jQuery 的 removeProp() 方法来删除元素的特性（property）</a></li>
-                            <li><a href="/post/37454977">使用 jQuery 的 prop() 方法来获取以及设置元素的特性（property）</a></li>
+                        <ul id="article_category" class="list-unstyled sidebar">
                         </ul>
                     </div>
                 </div>
@@ -155,7 +105,101 @@
         </div>
     </div>
 </div>
-<!--snow-->
-<!--<div class="snow-container"></div>-->
 </body>
+
+<!--文章列表分页设置-->
+<script type="text/javascript">
+    function setPage({total, size}) {
+        $("#page").Page({
+            totalPages: Math.ceil(total / size),
+            liNums: 5,
+            activeClass: 'activP', //active 类样式定义
+            callBack: function (current) {
+                console.log(current);
+                getLatestListByPage({current, size})
+            }
+        });
+        hasSetPage = true;
+    }
+
+</script>
+<!--获取文章分类 绑定文章分类点击事件-->
+<script>
+    $.ajax({
+        url: article_category_url,
+        data: JSON.stringify({ Q_eq_creatorId: _userId}),//已发布状态
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (res) {
+            $("article_category").html("");
+            if (res.code === 200) {
+                $.each(res.result, function (index, item) {
+                    const name = item.name;
+                    const id = item.id;
+                    $("#article_category").append(
+                        `<li>
+								<a>${name}</a>
+							</li>`
+                    );
+                });
+            }
+        }
+    });
+
+    $("#article_category").click((e)=>{
+        console.log(e)
+    })
+</script>
+
+<!--获取文章列表-->
+<script type="text/javascript">
+    var hasSetPage = false;
+
+    function getLatestListByPage(page,categoryId) {
+        $.ajax({
+            url: latest_articles_simple_url,
+            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId,Q_eq_categoryId:categoryId, page}),//已发布状态
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function (res) {
+                if (res.code === 200) {
+                    //初始化渲染分页器
+                    if (!hasSetPage) {
+                        setPage(res.page)
+                    }
+                    //循环渲染文章列表
+                    $.each(res.result, function (index, item) {
+                        const name = item.title;
+                        $("#article_content_List").append(
+                            `
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="contentleft">
+                                        <h4><a class="title" href="article_detail.html?id=${item.id}">${item.title}</a></h4>
+                                        <p>
+                                            <a class="label label-default">label1</a>
+                                            <a class="label label-default">label2</a>
+                                        </p>
+                                        <p class="overView">${item.abstract}</p>
+                                        <p>
+<!--                                            <span class="count"><i class="glyphicon glyphicon-user"></i>-->
+<!--                                                <a href="#">admin</a>-->
+<!--                                            </span>-->
+                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.comment||0}</span>
+                                            <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        );
+                    });
+                }
+            }
+        });
+    }
+    getLatestListByPage({current: 1, size: 15})
+</script>
 </html>

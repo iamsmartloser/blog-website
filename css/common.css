@@ -110,7 +110,7 @@ a,a:hover{
 
 }
 .w_main_left{
-	margin: 20px 0px;
+	margin: 20px 0px 0px 0px;
 	/*padding: 0px 10px 0px 0px;*/
 
 }
@@ -119,6 +119,10 @@ a,a:hover{
 	position: fixed;
 	top:100px;
 	right: 4%;
+}
+.latest_publish_simple{
+	max-height: 300px;
+	overflow: auto;
 }
 
 /*.w_carousel{
@@ -129,8 +133,8 @@ a,a:hover{
 	height: 350px;
 }
 /*博主置顶*/
-.contenttop:hover{
-	padding: 8px;
+.article_top_item:hover{
+	/*padding: 8px;*/
 	border: 1px #FF5E52 solid;
 }
 .contenttop>a{
@@ -155,6 +159,11 @@ a,a:hover{
 .contenttop .overView{
 	color: #999;
     margin-bottom: 0;
+}
+.article_top_item{
+	border:#ddd solid 1px;
+	margin: 5px;
+	border-radius: 5px;
 }
 /*公告*/
 .sitetip:hover{

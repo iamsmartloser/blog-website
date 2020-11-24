@@ -90,7 +90,7 @@
 
                 </div>
             </div>
-            <!--右侧-->
+            <!--右侧 公告和最新发布-->
             <div class="col-lg-3 col-md-3 w_main_right">
                 <div class="panel panel-default sitetip">
                     <a href="article_detail.html">
@@ -100,6 +100,7 @@
                             您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。您家小可爱的博客正在建设中。</p>
                     </a>
                 </div>
+
                 <div class="panel panel-default latest_publish_simple">
                     <div class="panel-heading">
                         <h3 class="panel-title">最新发布</h3>
@@ -206,7 +207,6 @@
                             `
                         );
                     });
-
                 }
             }
         });
@@ -227,7 +227,7 @@
                     const name = item.title;
                     $("#article_top").append(
                         `
-                    <a href="article_detail.html?id=${item.id}">
+                    <a href="article_detail.html?id=${item.id}" class="article_top_item">
                         <strong>小可爱的置顶</strong>
                         <h3 class="title">${item.title}</h3>
                         <p class="overView">${item.abstract}</p>
