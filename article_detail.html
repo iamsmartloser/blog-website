@@ -165,6 +165,7 @@
         </div>
     </div>
 </div>
+
 <!--获取左侧最新发表文章列表-->
 <script>
     $.ajax({
@@ -234,7 +235,7 @@
     });
 
 </script>
-<!--发表评论-->
+<!--评论相关-->
 <script>
     function comment() {
         if( !comment_form.email.value){
@@ -291,13 +292,33 @@
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
             success: function (res) {
-
                 if (res.code === 200) {
-
+                    comment_form.reset();
+                    reply_comment_form.reset()
                 }
             }
         });
     }
+    // 长列表实现参考 https://blog.csdn.net/weixin_42259266/article/details/105014266
+    function getComments(params) {
+        const articleId = getParam('id');
+        $.ajax({
+            url: article_comment_list_url,
+            data: JSON.stringify({ ...params, Q_eq_articleId:articleId}),//已发布状态
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function (res) {
+                if (res.code === 200) {
+                    console.log(res.result)
+                }
+            }
+        });
+    }
+</script>
+<!--初始化-->
+<script>
+    getComments()
 </script>
 </body>
 </html>
