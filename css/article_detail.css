@@ -69,3 +69,11 @@ ul.infos p {
 .nextinfo a:hover{
 	color: #337AB7;
 }
+
+.user_reply{
+    color: #2b669a;
+    float: right;
+}
+.user_reply:hover{
+    cursor:pointer
+}
