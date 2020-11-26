@@ -22,3 +22,13 @@ function getParam(paramName) {
 	}
 	return paramValue == "" && (paramValue = null), paramValue
 }
+
+function message(msg) {
+    if(msg){
+        $('#message_modal .modal-body').html(msg);
+    }
+    $('#message_modal').modal('show');
+    setTimeout(()=>{
+        $('#message_modal').modal('hide');
+    },1000)
+}

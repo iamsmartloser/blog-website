@@ -101,12 +101,12 @@
                     </a>
                 </div>
 
-                <div class="panel panel-default latest_publish_simple">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">最新发布</h3>
                     </div>
                     <div class="panel-body">
-                        <ul id="latest_publish_simple" class="list-unstyled sidebar">
+                        <ul id="latest_publish_simple" class="list-unstyled sidebar latest_publish_simple">
                         </ul>
                     </div>
                 </div>
@@ -141,9 +141,7 @@
 </div>
 <footer>
     <div class="w_foot">
-        <div class="w_foot_copyright">Copyright &copy; 2017-2020, www.wfyvv.com. All Rights Reserved. <span>|</span>
-            <a target="_blank" href="http://www.miitbeian.gov.cn/" rel="nofollow">皖ICP备17002922号</a>
-        </div>
+        <div class="w_foot_copyright">Copyright 2020, Xian, All Rights Reserved.</div>
     </div>
 </footer>
 </body>
@@ -196,7 +194,7 @@
                                         </p>
                                         <p class="overView">${item.abstract}</p>
                                         <p>
-                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.comment || 0}</span>
+                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>
                                             <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
                                         </p>
                                     </div>

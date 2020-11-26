@@ -68,48 +68,15 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <p><b>某某某 </b>说：</p>
-                        </li>
-                        <li class="list-group-item">
-                            <p><b>某某某</b> 对<b>某某某</b> 说：<span class="user_reply" onclick="$('#comment_reply_box').show()">回复</span></p>
-                            <pre>     sejfhaskldfjhsdkjhgkjfdhgkjdfhgkjhdfkgjhdakjhgkjfdghakdfj</pre>
-                            <div id="comment_reply_box"  style="display: none">
-                                <form class="form-horizontal" role="form" name = "comment_reply_form">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="reply_email">您的邮箱<em style="color: red;">*</em></label>
-                                        <div class="col-sm-10"><input id="reply_email" type="text" maxlength="50" class="col-sm-10 form-control input-sm"></div>
+                    <div style="font-weight: bold;font-size: 1.2em;;margin: 8px">评论区<span id="comment_count">(0)</span></div>
+                    <!--   评论区  -->
+                    <ul class="list-group" id="comment_list">
 
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="reply_name">您的大名</label>
-                                        <div class="col-sm-10"><input id="reply_name" type="text" maxlength="18" class="form-control input-sm"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="reply_nickName">您的昵称<em style="color: red;">*</em></label>
-                                        <div class="col-sm-10"><input id="reply_nickName" type="text" maxlength="18" class="form-control input-sm"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="reply_content">内容<em style="color: red;">*</em></label>
-                                        <div class="col-sm-10">
-                                            <textarea id="reply_content" class="form-control textarea-sm" rows="3" maxlength="1000" ></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="row">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-primary btn-sm" style="margin-right: 8px" onclick="replyComment()">确定</button>
-                                        <button class="btn btn-sm" onclick="$('#comment_reply_box').hide()">取消</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </li>
                     </ul>
+                <!--   最底部的评论编辑区  -->
                     <div class="panel-body">
                         <div style="font-weight: bold;font-size: 1.5em;margin-bottom: 8px">我要发表看法</div>
-                        <form class="form-horizontal" role="form" name = "comment_form" onsubmit="return comment()">
+                        <form class="form-horizontal" role="form" name = "comment_form" onsubmit="return comment(comment_form)">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="email">您的邮箱<em style="color: red;">*</em></label>
                                 <div class="col-sm-10"><input id="email" type="text" maxlength="50" class="col-sm-10 form-control input-sm"></div>
@@ -146,7 +113,7 @@
                         <h3 class="panel-title">最新发布</h3>
                     </div>
                     <div class="panel-body">
-                        <ul id="latest_publish_simple" class="list-unstyled sidebar">
+                        <ul id="latest_publish_simple" class="list-unstyled sidebar latest_publish_simple">
                         </ul>
                     </div>
                 </div>
@@ -154,10 +121,19 @@
 
         </div>
     </div>
+<!--    弹窗提示-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="message_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    请求中&hellip;
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 <div class="w_foot">
-    <!--<div class="w_foot_copyright">© 2015~2016 版权所有 | <a target="_blank" href="http://www.miitbeian.gov.cn/" rel="nofollow">京ICP备15010892号-1</a></div>-->
-    <div class="w_foot_copyright">Copyright © 2017-2020, www.wfyvv.com. All Rights Reserved.</div>
+    <div class="w_foot_copyright">Copyright 2020, Xian, All Rights Reserved.</div>
 </div>
 <div id="shape">
     <div class="shapeColor">
@@ -237,54 +213,33 @@
 </script>
 <!--评论相关-->
 <script>
-    function comment() {
-        if( !comment_form.email.value){
-            alert('请输入您的邮箱');
+    function comment(form,toUid=null) {
+        console.log('toUid:',toUid)
+        if( !form.email.value){
+            message('请输入您的邮箱');
             return false;
         }
-        if( !comment_form.nickName.value){
-            alert('请输入您的昵称');
+        if( !form.nickName.value){
+            message('请输入您的昵称');
             return false;
         }
-        if( !comment_form.content.value){
-            alert('请输入您的评论内容');
-            return false;
-        }
-        submitComment({
-            email: comment_form.email.value,
-            name: comment_form.name.value,
-            nickName: comment_form.nickName.value,
-            content: comment_form.content.value,
-        });
-
-        return false
-    }
-
-    function replyComment() {
-        if( !reply_comment_form.reply_email.value){
-            alert('请输入您的邮箱');
-            return false;
-        }
-        if( !reply_comment_form.reply_nickName.value){
-            alert('请输入您的昵称');
-            return false;
-        }
-        if( !reply_comment_form.reply_content.value){
-            alert('请输入您的评论内容');
+        if( !form.content.value){
+            message('请输入您的评论内容');
             return false;
         }
         submitComment({
-            email: reply_comment_form.reply_email.value,
-            name: reply_comment_form.reply_name.value,
-            nickName: reply_comment_form.reply_nickName.value,
-            content: reply_comment_form.reply_content.value,
-            // toUid,
-        });
+            email: form.email.value,
+            name: form.name.value,
+            nickName: form.nickName.value,
+            content: form.content.value,
+            toUid,
+        },form);
         return false
     }
 
-    function submitComment(params) {
+    function submitComment(params,form) {
         const articleId = getParam('id');
+        message();
         $.ajax({
             url: article_comment_create_url,
             data: JSON.stringify({ ...params, articleId}),//已发布状态
@@ -293,8 +248,9 @@
             contentType: 'application/json;charset=utf-8',
             success: function (res) {
                 if (res.code === 200) {
-                    comment_form.reset();
-                    reply_comment_form.reset()
+                    form.reset();
+                    message('发布成功');
+                    window.location.reload()
                 }
             }
         });
@@ -310,7 +266,48 @@
             contentType: 'application/json;charset=utf-8',
             success: function (res) {
                 if (res.code === 200) {
-                    console.log(res.result)
+                    $('#comment_count').text(`(${res.page.total}条)`);
+                    $.each(res.result, function (index, item) {
+                        const replyId=`comment_reply_form${index+1}`;
+                        $("#comment_list").append(
+                            `
+                            <li class="list-group-item">
+                            <p> ${index+1}楼 <b>${item.fromUser.nickName}</b>${item.toUser?` 对 <b>${item.toUser.nickName}</b>`:''} 说：<span class="user_reply" onclick="$('div [id^=comment_reply_form]').hide();$('#${replyId}').show()">回复</span></p>
+                            <pre>${item.content}</pre>
+                            <div id=${replyId}  style="display: none">
+                                <form class="form-horizontal" role="form" name = ${replyId}>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="email">您的邮箱<em style="color: red;">*</em></label>
+                                        <div class="col-sm-10"><input id="email" type="text" maxlength="50" class="col-sm-10 form-control input-sm"></div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="name">您的大名</label>
+                                        <div class="col-sm-10"><input id="name" type="text" maxlength="18" class="form-control input-sm"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="nickName">您的昵称<em style="color: red;">*</em></label>
+                                        <div class="col-sm-10"><input id="nickName" type="text" maxlength="18" class="form-control input-sm"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="content">内容<em style="color: red;">*</em></label>
+                                        <div class="col-sm-10">
+                                            <textarea id="content" class="form-control textarea-sm" rows="3" maxlength="1000" ></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-primary btn-sm" style="margin-right: 8px" onclick="comment(${replyId},'${item.fromUid}')">确定</button>
+                                        <button class="btn btn-sm" onclick="$('#${replyId}').hide()">取消</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+                            `
+                        );
+                    });
                 }
             }
         });
@@ -318,7 +315,7 @@
 </script>
 <!--初始化-->
 <script>
-    getComments()
+    getComments();
 </script>
 </body>
 </html>

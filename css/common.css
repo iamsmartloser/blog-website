@@ -124,6 +124,9 @@ a,a:hover{
 	max-height: 300px;
 	overflow: auto;
 }
+#message_modal{
+	top: 100px;
+}
 
 /*.w_carousel{
 	margin-bottom: 20px;
