@@ -1,5 +1,5 @@
 
-const base_url='http://127.0.0.1:7001';
+const base_url='http://47.108.152.55:7001';
 const _userId = '9628064f-d184-4975-a1a3-e7418b11f02a';
 
 const latest_articles_simple_url = base_url + '/article/findByPageWithAuth';// 文章列表
