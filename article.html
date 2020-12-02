@@ -20,8 +20,9 @@
 <div class="w_header">
     <div class="container">
         <div class="w_header_top">
-            <span href="#" class="w_logo">Xian</span>
-            <span class="w_header_nav">
+                <span class="w_header_left">
+                    <span href="#" class="w_logo">Xian</span>
+                <span class="w_header_nav">
 					<ul>
 						<li><a href="index.html">首页</a></li>
 						<li><a href="article.html" class="active">文章</a></li>
@@ -29,12 +30,12 @@
 						<li><a href="comment.html">留言</a></li>
 					</ul>
 				</span>
-            <div class="w_search">
-                <div class="w_searchbox">
-                    <input type="text" placeholder="search"/>
-                    <button>搜索</button>
-                </div>
-            </div>
+                </span>
+            <span class="w_header_right">
+<!--                    <input type="text" placeholder="search"/>-->
+                <!--                    <button>搜索</button>-->
+                    <a class="w_header_font" href="http://47.108.152.55/blog-management/">登录</a>
+                </span>
         </div>
     </div>
 </div>
@@ -125,7 +126,7 @@
 <script>
     $.ajax({
         url: article_category_url,
-        data: JSON.stringify({ Q_eq_creatorId: _userId}),//已发布状态
+        data: JSON.stringify({Q_eq_creatorId: _userId}),//已发布状态
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json;charset=utf-8',
@@ -150,16 +151,16 @@
     });
     $("#article_category").on("click", "li", function (e) {
         // 所以this指向的是 li
-        getLatestListByPage(null,$(this).attr('data'))
+        getLatestListByPage(null, $(this).attr('data'))
     })
 </script>
 
 <!--获取文章列表-->
 <script type="text/javascript">
-    function getLatestListByPage(page,categoryId) {
+    function getLatestListByPage(page, categoryId) {
         $.ajax({
             url: latest_articles_simple_url,
-            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId,Q_eq_categoryId:categoryId, page}),//已发布状态
+            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, Q_eq_categoryId: categoryId, page}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
@@ -188,7 +189,7 @@
 <!--                                            <span class="count"><i class="glyphicon glyphicon-user"></i>-->
 <!--                                                <a href="#">admin</a>-->
 <!--                                            </span>-->
-                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount||0}</span>
+                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>
                                             <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
                                         </p>
                                     </div>
@@ -201,6 +202,7 @@
             }
         });
     }
+
     getLatestListByPage()
 </script>
 </html>

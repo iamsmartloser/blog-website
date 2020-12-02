@@ -19,7 +19,8 @@
     <div class="w_header">
         <div class="container">
             <div class="w_header_top">
-                <span href="#" class="w_logo">Xian</span>
+                <span class="w_header_left">
+                    <span href="#" class="w_logo">Xian</span>
                 <span class="w_header_nav">
 					<ul>
 						<li><a href="index.html" class="active">首页</a></li>
@@ -28,12 +29,12 @@
 						<li><a href="comment.html">留言</a></li>
 					</ul>
 				</span>
-                <div class="w_search">
-                    <div class="w_searchbox">
-                        <input type="text" placeholder="search"/>
-                        <button>搜索</button>
-                    </div>
-                </div>
+                </span>
+                <span class="w_header_right">
+<!--                    <input type="text" placeholder="search"/>-->
+<!--                    <button>搜索</button>-->
+                    <a class="w_header_font" href="http://47.108.152.55/blog-management/">登录</a>
+                </span>
             </div>
         </div>
     </div>
@@ -185,9 +186,9 @@
                                         <h4><a class="title" href="article_detail.html?id=${item.id}">${item.title}</a></h4>
                                         <p>
                                         ${
-                                        item.tags&&item.tags.reduce((res,tag)=>
-                                            `<a class="label label-default">${tag.name}</a>`,'')
-                                        }
+                                item.tags && item.tags.reduce((res, tag) =>
+                                    `<a class="label label-default">${tag.name}</a>`, '')
+                            }
                                         </p>
                                         <p class="overView">${item.abstract}</p>
                                         <p>

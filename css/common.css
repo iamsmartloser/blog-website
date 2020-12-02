@@ -23,6 +23,8 @@ a,a:hover{
 }
 .w_header_top{
 	height: 55px;
+	display: flex;
+	justify-content: space-between;
 }
 .w_logo{
 	font-size: 28px;
@@ -31,11 +33,21 @@ a,a:hover{
 	color: white;
 	float: left;
 }
-.w_search{
-	float: right;
-	padding-right: 10px;
-	padding-left: 10px;
-	height: 80px;
+.w_header_left{
+	flex: 2;
+}
+.w_header_right{
+	flex: 1;
+	padding: 17.5px 0;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: right;
+}
+.w_header_right a:hover{
+	color: #eeee;
+}
+.w_header_font{
+	color: white;
 }
 .w_search .w_searchbox{
 	margin-top: 15px;
