@@ -23,12 +23,16 @@ function getParam(paramName) {
 	return paramValue == "" && (paramValue = null), paramValue
 }
 
-function message(msg) {
+function message(msg,callback) {
     if(msg){
         $('#message_modal .modal-body').html(msg);
     }
     $('#message_modal').modal('show');
     setTimeout(()=>{
         $('#message_modal').modal('hide');
+        if(callback){
+            console.log('if(callback)')
+            callback()
+        }
     },1000)
 }

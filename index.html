@@ -17,8 +17,7 @@
 <body>
 <header>
     <div class="w_header">
-        <div class="container">
-            <div class="w_header_top">
+        <div class="w_header_top">
                 <span class="w_header_left">
                     <span href="#" class="w_logo">Xian</span>
                 <span class="w_header_nav">
@@ -30,12 +29,11 @@
 					</ul>
 				</span>
                 </span>
-                <span class="w_header_right">
+            <span class="w_header_right">
 <!--                    <input type="text" placeholder="search"/>-->
-<!--                    <button>搜索</button>-->
+                <!--                    <button>搜索</button>-->
                     <a class="w_header_font" href="http://47.108.152.55/blog-management/">登录</a>
                 </span>
-            </div>
         </div>
     </div>
 </header>
@@ -162,11 +160,10 @@
 <!--获取文章列表-->
 <script type="text/javascript">
     var hasSetPage = false;
-
     function getLatestListByPage(page) {
         $.ajax({
             url: latest_articles_simple_url,
-            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, page}),//已发布状态
+            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, page, order:[["publishAt","DESC"]]}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
@@ -239,7 +236,7 @@
 <script>
     $.ajax({
         url: latest_articles_simple_url,
-        data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId}),//已发布状态
+        data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, order:[["publishAt","DESC"]]}),//已发布状态
         // xhrFields: {
         //     withCredentials: true // 携带跨域cookie
         // },

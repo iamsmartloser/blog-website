@@ -147,7 +147,7 @@
 <script>
     $.ajax({
         url: latest_articles_simple_url,
-        data: JSON.stringify({Q_eq_status:1,Q_eq_userId:_userId}),
+        data: JSON.stringify({Q_eq_status:1,Q_eq_userId:_userId, order:[["publishAt","DESC"]]}),
         // xhrFields: {
         //     withCredentials: true // 携带跨域cookie
         // },
@@ -250,8 +250,11 @@
             success: function (res) {
                 if (res.code === 200) {
                     form.reset();
-                    message('发布成功');
-                    window.location.reload()
+                    message('发布成功',function(){
+                        console.log('callback')
+                        window.location.reload()
+                    });
+
                 }
             }
         });
@@ -261,7 +264,7 @@
         const articleId = getParam('id');
         $.ajax({
             url: article_comment_list_url,
-            data: JSON.stringify({ ...params, Q_eq_articleId:articleId}),//已发布状态
+            data: JSON.stringify({ ...params, Q_eq_articleId:articleId, order:[["createdAt","DESC"]]}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
