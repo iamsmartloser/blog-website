@@ -17,8 +17,7 @@
 
 <body>
 <div class="w_header">
-    <div class="container">
-        <div class="w_header_top">
+    <div class="w_header_top">
                 <span class="w_header_left">
                     <span href="#" class="w_logo">Xian</span>
                 <span class="w_header_nav">
@@ -30,12 +29,11 @@
 					</ul>
 				</span>
                 </span>
-            <span class="w_header_right">
+        <span class="w_header_right">
 <!--                    <input type="text" placeholder="search"/>-->
-                <!--                    <button>搜索</button>-->
+            <!--                    <button>搜索</button>-->
                     <a class="w_header_font" href="http://47.108.152.55/blog-management/">登录</a>
                 </span>
-        </div>
     </div>
 </div>
 <div class="w_container">
@@ -53,10 +51,10 @@
                     <div class="panel-body">
                         <h2 class="c_titile" id="article_title"></h2>
                         <p class="box_c">
-							<span class="d_time" id="article_publish_time"></span>
-							<span>作者：<a
-                                href=""  id="article_publisher"></a></span>
-						</p>
+                            <span class="d_time" id="article_publish_time"></span>
+                            <span>作者：<a
+                                    href="" id="article_publisher"></a></span>
+                        </p>
                         <div class="infos" id="article_markdown">
 
                         </div>
@@ -69,32 +67,40 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <div style="font-weight: bold;font-size: 1.2em;;margin: 8px">评论区<span id="comment_count">(0)</span></div>
+                    <div style="font-weight: bold;font-size: 1.2em;;margin: 8px">评论区<span id="comment_count">(0)</span>
+                    </div>
                     <!--   评论区  -->
                     <ul class="list-group" id="comment_list">
 
                     </ul>
-                <!--   最底部的评论编辑区  -->
+                    <!--   最底部的评论编辑区  -->
                     <div class="panel-body">
                         <div style="font-weight: bold;font-size: 1.5em;margin-bottom: 8px">我要发表看法</div>
-                        <form class="form-horizontal" role="form" name = "comment_form" onsubmit="return comment(comment_form)">
+                        <form class="form-horizontal" role="form" name="comment_form"
+                              onsubmit="return comment(comment_form)">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="email">您的邮箱<em style="color: red;">*</em></label>
-                                <div class="col-sm-10"><input id="email" type="text" maxlength="50" class="col-sm-10 form-control input-sm"></div>
+                                <label class="col-sm-2 control-label" for="email">您的邮箱<em
+                                        style="color: red;">*</em></label>
+                                <div class="col-sm-10"><input id="email" type="text" maxlength="50"
+                                                              class="col-sm-10 form-control input-sm"></div>
 
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="nickName">您的大名</label>
-                                <div class="col-sm-10"><input id="name" type="text" maxlength="18" class="form-control input-sm"></div>
+                                <div class="col-sm-10"><input id="name" type="text" maxlength="18"
+                                                              class="form-control input-sm"></div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="nickName">您的昵称<em style="color: red;">*</em></label>
-                                <div class="col-sm-10"><input id="nickName" type="text" maxlength="18" class="form-control input-sm"></div>
+                                <div class="col-sm-10"><input id="nickName" type="text" maxlength="18"
+                                                              class="form-control input-sm"></div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="content">内容<em style="color: red;">*</em></label>
+                                <label class="col-sm-2 control-label" for="content">内容<em
+                                        style="color: red;">*</em></label>
                                 <div class="col-sm-10">
-                                    <textarea id="content" class="form-control textarea-sm" rows="3" maxlength="1000" ></textarea>
+                                    <textarea id="content" class="form-control textarea-sm" rows="3"
+                                              maxlength="1000"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -122,7 +128,7 @@
 
         </div>
     </div>
-<!--    弹窗提示-->
+    <!--    弹窗提示-->
     <div class="modal fade" tabindex="-1" role="dialog" id="message_modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -147,7 +153,7 @@
 <script>
     $.ajax({
         url: latest_articles_simple_url,
-        data: JSON.stringify({Q_eq_status:1,Q_eq_userId:_userId, order:[["publishAt","DESC"]]}),
+        data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, order: [["publishAt", "DESC"]]}),
         // xhrFields: {
         //     withCredentials: true // 携带跨域cookie
         // },
@@ -174,37 +180,37 @@
     const articleId = getParam('id');
     $.ajax({
         url: article_detail_url,
-        data: JSON.stringify({Q_eq_id:articleId, Q_eq_userId: _userId}),
+        data: JSON.stringify({Q_eq_id: articleId, Q_eq_userId: _userId}),
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json;charset=utf-8',
         success: function (res) {
             if (res.code === 200) {
-                if(res.result.title){
+                if (res.result.title) {
                     $('#breadcrumb_title').text(res.result.title);
                     $('#article_title').text(res.result.title);
                 }
-				if(res.result.user&&res.result.user.name){
+                if (res.result.user && res.result.user.name) {
                     $('#article_publisher').text(res.result.user.name);
                 }
-                if(res.result.publishAt){
+                if (res.result.publishAt) {
                     $('#article_publish_time').text(res.result.publishAt);
                 }
-				if(res.result.markdown){
+                if (res.result.markdown) {
                     $('#article_markdown').html(marked(res.result.markdown));
                 }
-                if(res.result.pre){
+                if (res.result.pre) {
                     $('#article_pre').text(res.result.pre.title)
-                        .attr("href",`article_detail.html?id=${res.result.pre.id}`)
+                        .attr("href", `article_detail.html?id=${res.result.pre.id}`)
                     // console.log('pre-------',res.result.pre)
-                }else {
+                } else {
                     $('#article_pre').text('没有上一篇了')
                 }
-                if(res.result.next){
+                if (res.result.next) {
                     $('#article_next').text(res.result.next.title)
-                        .attr("href",`article_detail.html?id=${res.result.next.id}`)
+                        .attr("href", `article_detail.html?id=${res.result.next.id}`)
                     // console.log('next-------',res.result.next)
-                }else {
+                } else {
                     $('#article_next').text('没有下一篇了')
                 }
             }
@@ -214,17 +220,17 @@
 </script>
 <!--评论相关-->
 <script>
-    function comment(form,toUid=null) {
-        console.log('toUid:',toUid)
-        if( !form.email.value){
+    function comment(form, toUid = null) {
+        console.log('toUid:', toUid)
+        if (!form.email.value) {
             message('请输入您的邮箱');
             return false;
         }
-        if( !form.nickName.value){
+        if (!form.nickName.value) {
             message('请输入您的昵称');
             return false;
         }
-        if( !form.content.value){
+        if (!form.content.value) {
             message('请输入您的评论内容');
             return false;
         }
@@ -234,23 +240,23 @@
             nickName: form.nickName.value,
             content: form.content.value,
             toUid,
-        },form);
+        }, form);
         return false
     }
 
-    function submitComment(params,form) {
+    function submitComment(params, form) {
         const articleId = getParam('id');
         message();
         $.ajax({
             url: article_comment_create_url,
-            data: JSON.stringify({ ...params, articleId}),//已发布状态
+            data: JSON.stringify({...params, articleId}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
             success: function (res) {
                 if (res.code === 200) {
                     form.reset();
-                    message('发布成功',function(){
+                    message('发布成功', function () {
                         console.log('callback')
                         window.location.reload()
                     });
@@ -259,12 +265,13 @@
             }
         });
     }
+
     // 长列表实现参考 https://blog.csdn.net/weixin_42259266/article/details/105014266
     function getComments(params) {
         const articleId = getParam('id');
         $.ajax({
             url: article_comment_list_url,
-            data: JSON.stringify({ ...params, Q_eq_articleId:articleId, order:[["createdAt","DESC"]]}),//已发布状态
+            data: JSON.stringify({...params, Q_eq_articleId: articleId, order: [["createdAt", "DESC"]]}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
@@ -272,11 +279,11 @@
                 if (res.code === 200) {
                     $('#comment_count').text(`(${res.page.total}条)`);
                     $.each(res.result, function (index, item) {
-                        const replyId=`comment_reply_form${index+1}`;
+                        const replyId = `comment_reply_form${index + 1}`;
                         $("#comment_list").append(
                             `
                             <li class="list-group-item">
-                            <p> ${index+1}楼 <b>${item.fromUser.nickName}</b>${item.toUser?` 对 <b>${item.toUser.nickName}</b>`:''} 说：<span class="user_reply" onclick="$('div [id^=comment_reply_form]').hide();$('#${replyId}').show()">回复</span></p>
+                            <p> ${index + 1}楼 <b>${item.fromUser.nickName}</b>${item.toUser ? ` 对 <b>${item.toUser.nickName}</b>` : ''} 说：<span class="user_reply" onclick="$('div [id^=comment_reply_form]').hide();$('#${replyId}').show()">回复</span></p>
                             <pre>${item.content}</pre>
                             <div id=${replyId}  style="display: none">
                                 <form class="form-horizontal" role="form" name = ${replyId}>
