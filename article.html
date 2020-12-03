@@ -130,7 +130,7 @@
         success: function (res) {
             $("article_category").html("");
             $("#article_category").append(
-                `<li ><a  href="">全部</a></li>`
+                `<li ><a  data="${null}">全部</a></li>`
             );
             if (res.code === 200) {
 
@@ -139,7 +139,7 @@
                     const id = item.id;
                     $("#article_category").append(
                         `<li data="${id}">
-								<a href="">${name}</a>
+								<span>${name}</span>
 							</li>`
                     );
                 });
