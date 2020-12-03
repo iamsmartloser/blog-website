@@ -69,11 +69,22 @@ ul.infos p {
 .nextinfo a:hover{
 	color: #337AB7;
 }
-
-.user_reply{
-    color: #2b669a;
+.comment_item_right{
     float: right;
 }
+.user_reply{
+    color: #2b669a;
+}
 .user_reply:hover{
+    cursor:pointer
+}
+.load_more{
+    text-align: center;
+    margin: 8px 0;
+}
+.load_more_bt{
+    color: #2b669a88;
+}
+.load_more_bt:hover{
     cursor:pointer
 }

@@ -73,6 +73,9 @@
                     <ul class="list-group" id="comment_list">
 
                     </ul>
+                    <div class="load_more" id="load_more">
+                        <span class="load_more_bt" id="">点击加载更多评论</span>
+                    </div>
                     <!--   最底部的评论编辑区  -->
                     <div class="panel-body">
                         <div style="font-weight: bold;font-size: 1.5em;margin-bottom: 8px">我要发表看法</div>
@@ -268,22 +271,42 @@
 
     // 长列表实现参考 https://blog.csdn.net/weixin_42259266/article/details/105014266
     function getComments(params) {
+        if(loadingComment===true){
+           return
+        }
+        loadingComment=true;
         const articleId = getParam('id');
         $.ajax({
             url: article_comment_list_url,
-            data: JSON.stringify({...params, Q_eq_articleId: articleId, order: [["createdAt", "DESC"]]}),//已发布状态
+            data: JSON.stringify({...params, Q_eq_articleId: articleId, order: [["createdAt", "ASC"]]}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
             success: function (res) {
+                loadingComment=false;
                 if (res.code === 200) {
+                    if(res.page.current*res.page.size >= res.page.total){//最后一页，不显示加载更多评论按钮
+                        $('#load_more').hide()
+                    }else {
+                        $('#load_more').show();
+                        $('#load_more').click(()=>{
+                            getComments({page:{size:res.page.size,current:res.page.current+1}})
+                        })
+                    }
                     $('#comment_count').text(`(${res.page.total}条)`);
                     $.each(res.result, function (index, item) {
                         const replyId = `comment_reply_form${index + 1}`;
                         $("#comment_list").append(
                             `
                             <li class="list-group-item">
-                            <p> ${index + 1}楼 <b>${item.fromUser.nickName}</b>${item.toUser ? ` 对 <b>${item.toUser.nickName}</b>` : ''} 说：<span class="user_reply" onclick="$('div [id^=comment_reply_form]').hide();$('#${replyId}').show()">回复</span></p>
+                            <p>
+                                ${index + 1}楼 <b>${item.fromUser.nickName}</b>${item.toUser ? ` 对 <b>${item.toUser.nickName}</b>` : ''} 说：
+                                <span class="comment_item_right">
+                                <span>${item.createdAt}</span>
+                                <span class="user_reply" onclick="$('div [id^=comment_reply_form]').hide();$('#${replyId}').show()">回复</span>
+                                </span>
+
+                            </p>
                             <pre>${item.content}</pre>
                             <div id=${replyId}  style="display: none">
                                 <form class="form-horizontal" role="form" name = ${replyId}>
@@ -326,6 +349,7 @@
 </script>
 <!--初始化-->
 <script>
+    var loadingComment=false;
     getComments();
 </script>
 </body>

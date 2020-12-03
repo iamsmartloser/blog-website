@@ -153,13 +153,11 @@
                 getLatestListByPage({current, size})
             }
         });
-        hasSetPage = true;
     }
 
 </script>
 <!--获取文章列表-->
 <script type="text/javascript">
-    var hasSetPage = false;
     function getLatestListByPage(page) {
         $.ajax({
             url: latest_articles_simple_url,
@@ -170,9 +168,10 @@
             success: function (res) {
                 if (res.code === 200) {
                     //初始化渲染分页器
-                    if (!hasSetPage) {
+                    if (!page) {
                         setPage(res.page)
                     }
+                    $("#article_content_List").html('')
                     //循环渲染文章列表
                     $.each(res.result, function (index, item) {
                         $("#article_content_List").append(
@@ -203,7 +202,7 @@
         });
     }
 
-    getLatestListByPage({current: 1, size: 15})
+    getLatestListByPage()
 </script>
 <!--获取置顶文章-->
 <script>
