@@ -300,7 +300,7 @@
                             `
                             <li class="list-group-item">
                             <p>
-                                ${index + 1}楼 <b>${item.fromUser.nickName}</b>${item.toUser ? ` 对 <b>${item.toUser.nickName}</b>` : ''} 说：
+                                ${(res.page.current-1)*res.page.size+(index + 1)}楼 <b>${item.fromUser.nickName}</b>${item.toUser ? ` 对 <b>${item.toUser.nickName}</b>` : ''} 说：
                                 <span class="comment_item_right">
                                 <span>${item.createdAt}</span>
                                 <span class="user_reply" onclick="$('div [id^=comment_reply_form]').hide();$('#${replyId}').show()">回复</span>
