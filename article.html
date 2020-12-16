@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Xian个人博客</title>
+    <title>Xian的个人学习笔记</title>
 </head>
 
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
         <span class="w_header_right">
 <!--                    <input type="text" placeholder="search"/>-->
             <!--                    <button>搜索</button>-->
-                    <a class="w_header_font" href="http://47.108.152.55/blog-management/">后台管理</a>
+                    <a class="w_header_font" href="blog-management">后台管理</a>
                 </span>
     </div>
 </div>
@@ -44,7 +44,7 @@
             <ol class="breadcrumb w_breadcrumb">
                 <li><a href="#">首页</a></li>
                 <li class="active">文章</li>
-                <li class="active">全部</li>
+                <li class="active" id="bread_category">全部</li>
                 <span class="w_navbar_tip">路漫漫其修远兮，吾将上下而求索。</span>
             </ol>
 
@@ -71,31 +71,35 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">友情链接</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="newContent">
-                            <ul class="list-unstyled sidebar shiplink">
-                                <li><a href="https://www.baidu.com/" target="_blank">百度</a></li>
-                                <li><a href="https://www.oschina.net/" target="_blank">开源中国</a></li>
-                                <li><a href="http://www.ulewo.com/" target="_blank">有乐网</a></li>
-                                <li><a href="http://www.sina.com.cn/" target="_blank">新浪网</a></li>
-                                <li><a href="http://www.qq.com/" target="_blank">腾讯网</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="panel panel-default">-->
+<!--                    <div class="panel-heading">-->
+<!--                        <h3 class="panel-title">友情链接</h3>-->
+<!--                    </div>-->
+<!--                    <div class="panel-body">-->
+<!--                        <div class="newContent">-->
+<!--                            <ul class="list-unstyled sidebar shiplink">-->
+<!--                                <li><a href="https://www.baidu.com/" target="_blank">百度</a></li>-->
+<!--                                <li><a href="https://www.oschina.net/" target="_blank">开源中国</a></li>-->
+<!--                                <li><a href="http://www.ulewo.com/" target="_blank">有乐网</a></li>-->
+<!--                                <li><a href="http://www.sina.com.cn/" target="_blank">新浪网</a></li>-->
+<!--                                <li><a href="http://www.qq.com/" target="_blank">腾讯网</a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
 
 
         </div>
     </div>
 </div>
-<div class="w_foot">
-    <div class="w_foot_copyright">Copyright 2020, Xian, All Rights Reserved.</div>
-</div>
+<footer>
+    <div class="w_foot">
+        <div class="w_foot_copyright">Copyright &copy; Xian, www.smartloser.cn. All Rights Reserved. <span>|</span>
+            <a target="_blank" href="http://beian.miit.gov.cn" rel="nofollow">蜀ICP备2020035904号-1</a>
+        </div>
+    </div>
+</footer>
 <!--toTop-->
 <div id="shape">
     <div class="shapeColor">
@@ -138,7 +142,7 @@
                     const name = item.name;
                     const id = item.id;
                     $("#article_category").append(
-                        `<li data="${id}">
+                        `<li data="${id}" data-name="${name}">
 								<span>${name}</span>
 							</li>`
                     );
@@ -147,8 +151,10 @@
         }
     });
     $("#article_category").on("click", "li", function (e) {
+        console.log('data:',$(this).attr('data'))
         // 所以this指向的是 li
-        getLatestListByPage(null, $(this).attr('data'))
+        getLatestListByPage(null, $(this).attr('data'));
+        $('#bread_category').text($(this).text())
     })
 </script>
 
@@ -184,7 +190,7 @@
                                         </p>
                                         <p class="overView">${item.abstract}</p>
                                         <p>
-                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>
+<!--                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>-->
                                             <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
                                         </p>
                                     </div>
