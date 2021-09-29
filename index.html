@@ -184,13 +184,13 @@
                                         <h4><a class="title" href="article_detail.html?id=${item.id}">${item.title}</a></h4>
                                         <p>
                                         ${
-                                item.tags && item.tags.reduce((res, tag) =>
-                                    `<a class="label label-default">${tag.name}</a>`, '')
+                                (item.tags && item.tags.map((tag) =>
+                                    `<a class="label label-default">${tag.name}</a>`)).join('')
                             }
                                         </p>
                                         <p class="overView">${item.abstract}</p>
                                         <p>
-<!--                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>-->
+                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>
                                             <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
                                         </p>
                                     </div>

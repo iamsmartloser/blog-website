@@ -1,5 +1,5 @@
 // const domain='http://www.smartloser.cn';//http://47.108.152.55:7001
-const domain='https://www.smartloser.cn';
+const domain='';
 const base_url=domain+'/api';
 const _userId = '9628064f-d184-4975-a1a3-e7418b11f02a';
 

@@ -163,7 +163,7 @@
     function getLatestListByPage(page, categoryId) {
         $.ajax({
             url: latest_articles_simple_url,
-            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, Q_eq_categoryId: categoryId, page}),//已发布状态
+            data: JSON.stringify({Q_eq_status: 1, Q_eq_userId: _userId, Q_eq_categoryId: categoryId, page,order:[["publishAt","DESC"]]}),//已发布状态
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=utf-8',
@@ -184,13 +184,13 @@
                                         <h4><a class="title" href="article_detail.html?id=${item.id}">${item.title}</a></h4>
                                         <p>
                                         ${
-                                item.tags && item.tags.reduce((res, tag) =>
-                                    `<a class="label label-default">${tag.name}</a>`, '')
+                                (item.tags && item.tags.map((tag) =>
+                                    `<a class="label label-default">${tag.name}</a>`)).join('')
                             }
                                         </p>
                                         <p class="overView">${item.abstract}</p>
                                         <p>
-<!--                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>-->
+                                            <span class="count"><i class="glyphicon glyphicon-comment"></i>评论:${item.commentsCount || 0}</span>
                                             <span class="count"><i class="glyphicon glyphicon-time"></i>${item.publishAt}</span>
                                         </p>
                                     </div>
